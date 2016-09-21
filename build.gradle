@@ -1,0 +1,16 @@
+apply plugin: 'java'
+apply plugin: 'war'
+
+repositories {
+    flatDir { dirs "lib" }
+    mavenCentral()
+}
+
+dependencies {
+    compile "javax.servlet:jstl:1.2"
+    compile "javax:javaee-web-api:7.0"
+}
+
+war {
+    from 'src/webapp' // adds a file-set to the root of the archive
+}
