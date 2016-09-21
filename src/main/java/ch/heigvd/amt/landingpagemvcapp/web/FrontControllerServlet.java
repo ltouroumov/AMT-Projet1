@@ -18,19 +18,11 @@ public class FrontControllerServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
     request.setAttribute("message", "");
-    List technologies = new ArrayList<String>();
-    technologies.add("Java EE");
-    technologies.add("Servlets");
-    technologies.add("JSP");
-    technologies.add("JDBC");
-    technologies.add("JPA");
-    technologies.add("JAX-RS");
-    technologies.add("Spring");
-    technologies.add("Spring Boot");
-    technologies.add("Glassfish");
-    technologies.add("Wildfly");
-    technologies.add("Tomcat");
-    request.setAttribute("technologies", technologies);
+    List<String> technologies = new ArrayList<String>();
+    technologies.add("Charmander");
+    technologies.add("Squirtle");
+    technologies.add("Bulbasaur");
+    request.setAttribute("pokemons", technologies);
     request.getRequestDispatcher("/WEB-INF/pages/").forward(request, response);
   }
 

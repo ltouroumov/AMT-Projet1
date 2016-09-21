@@ -52,11 +52,11 @@
 								<h1 class="headline">
 								We will play with...
 								<br>
-                                <c:forEach var="technology" items="${requestScope.technologies}">
-                                  <span class="quotes">${technology}</span>                                  
+                                <c:forEach var="pokemon" items="${requestScope.pokemons}">
+                                  <span class="quotes">${pokemon}</span>
                                 </c:forEach>
 								<br>
-								It's going to be fun.
+								Gotta catch 'em all.
 								</h1>
 								<!-- SUCCESS OR ERROR MESSAGES -->
                 				<div id="subscription-response"></div>
