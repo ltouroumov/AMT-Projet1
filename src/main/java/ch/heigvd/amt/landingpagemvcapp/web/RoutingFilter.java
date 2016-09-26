@@ -39,9 +39,9 @@ public class RoutingFilter implements Filter {
       return true;
     } else if (path.startsWith("/css")) {
       return true;
-    } else if (path.startsWith("/fonts")) {
+    } else if (path.startsWith("/assets/fonts")) {
       return true;
-    } else if (path.startsWith("/js")) {
+    } else if (path.startsWith("/assets/js")) {
       return true;
     }
     return false;
