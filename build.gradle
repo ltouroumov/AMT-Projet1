@@ -13,6 +13,14 @@ dependencies {
 
 war {
     from 'src/webapp' // adds a file-set to the root of the archive
-    destinationDir = new File('./wildfly')
+    destinationDir = new File('./wildfly/server/standalone/deployments/')
     archiveName = 'app.war'
 }
+
+task wildfly(type:Exec, dependsOn: 'war') {
+    workingDir 'wildfly/server'
+
+    //on linux
+    commandLine './bin/standalone.sh'
+}
+
