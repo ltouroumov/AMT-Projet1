@@ -27,7 +27,7 @@
                     <li><a href="${base}/register">Register</a></li>
                 </c:if>
                 <c:if test="${sessionScope.get(\"user\") != null}">
-                    <li><a href="${base}/profile">${sessionScope.get("user").getUsername()}</a></li>
+                    <li><a href="${base}/profile"><span class="ion ion-person"></span> ${sessionScope.get("user").getUsername()}</a></li>
                     <li><a href="${base}/logout">Logout</a></li>
                 </c:if>
             </ul>
