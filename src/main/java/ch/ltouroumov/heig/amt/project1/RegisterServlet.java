@@ -2,6 +2,7 @@ package ch.ltouroumov.heig.amt.project1;
 
 import ch.ltouroumov.heig.amt.project1.user.*;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +15,13 @@ import java.io.IOException;
  */
 @WebServlet(name = "RegisterServlet")
 public class RegisterServlet extends HttpServlet {
+
+    @EJB
+    private IUserStore userStore;
+
+    @EJB
+    private IPasswordEncoder encoder;
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String email = request.getParameter("email");
@@ -29,11 +37,9 @@ public class RegisterServlet extends HttpServlet {
         User user = new User(username);
         user.setEmail(email);
 
-        IPasswordEncoder encoder = new HashPasswordEncoder();
         user.setPassword(encoder.encode(plainPassword));
 
-        IUserStore userStore = MemoryUserStore.instance();
-        if (userStore.register(user)) {
+        if (userStore.addUser(user)) {
             request.getSession().setAttribute("user", user);
             response.sendRedirect(request.getServletContext().getContextPath() + "/profile");
         } else {
