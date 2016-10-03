@@ -9,6 +9,10 @@ repositories {
 dependencies {
     compile "javax.servlet:jstl:1.2"
     compile "javax:javaee-web-api:7.0"
+
+    // https://mvnrepository.com/artifact/commons-codec/commons-codec
+    compile group: 'commons-codec', name: 'commons-codec', version: '1.10'
+
 }
 
 war {
