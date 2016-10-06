@@ -3,7 +3,9 @@ package ch.ltouroumov.heig.amt.project1.user;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.ejb.Singleton;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,5 +36,15 @@ public class MemoryUserStore implements IUserStore {
     @Override
     public synchronized User findUser(String username) {
         return users.get(username);
+    }
+
+    @Override
+    public List<User> getUsers() {
+        ArrayList<User> list = new ArrayList<>();
+
+        for (HashMap.Entry<String, User> entry : users.entrySet()) {
+            list.add(entry.getValue());
+        }
+        return list;
     }
 }

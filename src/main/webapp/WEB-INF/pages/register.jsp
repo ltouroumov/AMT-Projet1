@@ -22,6 +22,20 @@
             </div>
 
             <div class="form-group">
+                <label for="firstname" class="col-sm-2 control-label">Firstname</label>
+                <div class="col-sm-10">
+                    <input type="text" name="firstname" id="firstname" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="lastname" class="col-sm-2 control-label">Lastname</label>
+                <div class="col-sm-10">
+                    <input type="text" name="lastname" id="lastname" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label for="email" class="col-sm-2 control-label">E-Mail</label>
                 <div class="col-sm-10">
                     <input type="text" name="email" id="email" class="form-control" />

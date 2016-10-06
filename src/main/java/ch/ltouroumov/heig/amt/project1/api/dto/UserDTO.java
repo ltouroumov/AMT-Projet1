@@ -1,17 +1,18 @@
-package ch.ltouroumov.heig.amt.project1.user;
+package ch.ltouroumov.heig.amt.project1.api.dto;
 
 /**
- * Created by ldavid on 10/3/16.
+ * Created by Frederic on 05.10.16.
  */
-public class User {
+public class UserDTO {
 
     private String username;
     private String firstname;
     private String lastname;
-    private String password;
     private String email;
 
-    public User(String username) {
+    public UserDTO() {}
+
+    public UserDTO(String username) {
         this.username = username;
     }
 
@@ -39,11 +40,5 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
