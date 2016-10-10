@@ -1,6 +1,6 @@
 FROM jboss/wildfly:10.1.0.Final
 
-MAINTAINER Olivier Liechti <olivier.liechti@heig-vd.ch>
+MAINTAINER Laureline David <jeremy.david@heig-vd.ch>
 
 ADD server/standalone/deployments/app.war /opt/jboss/wildfly/standalone/deployments/
 
