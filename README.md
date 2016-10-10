@@ -9,13 +9,9 @@ The project uses gradle as a build system (which has the advantage of having rea
 
 ## Local Server
 
-Install a local distribution of wildfly in wildfly/server
-
-    # Start Server
-    ./gradlew wildfly
-    
-    # Redeploy application
-    ./gradlew war
+The docker-compose.yml mounts the directory containing the build output directly
+inside the wildfly container. As such, building the project (`./gradlew war`)
+will automatically deploy on the application server.
 
 ## Deploying
 

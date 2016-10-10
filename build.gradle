@@ -17,7 +17,7 @@ dependencies {
 
 war {
     from 'src/webapp' // adds a file-set to the root of the archive
-    destinationDir = new File('./wildfly/server/standalone/deployments/')
+    destinationDir = new File('./wildfly/deploy/')
     archiveName = 'app.war'
 }
 
