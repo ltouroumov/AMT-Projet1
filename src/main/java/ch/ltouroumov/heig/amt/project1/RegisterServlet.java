@@ -24,6 +24,8 @@ public class RegisterServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
+        String firstname = request.getParameter("firstname");
+        String lastname = request.getParameter("lastname");
         String email = request.getParameter("email");
         String plainPassword = request.getParameter("password");
         String plainPasswordConfirm = request.getParameter("password-confirm");
@@ -35,6 +37,8 @@ public class RegisterServlet extends HttpServlet {
         }
 
         User user = new User(username);
+        user.setFirstname(firstname);
+        user.setLastname(lastname);
         user.setEmail(email);
 
         user.setPassword(encoder.encode(plainPassword));
