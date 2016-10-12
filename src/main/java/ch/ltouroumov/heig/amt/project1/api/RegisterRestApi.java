@@ -2,6 +2,8 @@ package ch.ltouroumov.heig.amt.project1.api;
 
 
 import ch.ltouroumov.heig.amt.project1.api.dto.GetUserDTO;
+import ch.ltouroumov.heig.amt.project1.api.dto.PostUpdatePasswordDTO;
+import ch.ltouroumov.heig.amt.project1.api.dto.PostUpdateUserDTO;
 import ch.ltouroumov.heig.amt.project1.api.dto.PostUserDTO;
 import ch.ltouroumov.heig.amt.project1.model.manager.IUserManager;
 import ch.ltouroumov.heig.amt.project1.model.entities.User;
@@ -62,6 +64,27 @@ public class RegisterRestApi {
             return Response.notModified("User already exists...")
                     .build();
         }
+    }
+
+
+    @Path("/update/password/{id}")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updatePassword(@PathParam(value = "id") String id, PostUpdatePasswordDTO dto){
+        User user = userStore.findUser(id);
+        user.setPassword(DigestUtils.sha1Hex(dto.getPassword()));
+        return Response.accepted("User password updated successfully!").build();
+    }
+
+    @Path("/update/user/{id}")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateInfoUser(@PathParam(value = "id") String id, PostUpdateUserDTO dto){
+        User user = userStore.findUser(id);
+        user.setFirstname(dto.getFirstname());
+        user.setLastname(dto.getLastname());
+        user.setEmail(dto.getEmail());
+        return Response.accepted("User info updated successfully!").build();
     }
 
 
