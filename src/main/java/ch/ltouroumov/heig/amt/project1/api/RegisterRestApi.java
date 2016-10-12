@@ -1,9 +1,11 @@
 package ch.ltouroumov.heig.amt.project1.api;
 
 
-import ch.ltouroumov.heig.amt.project1.api.dto.UserDTO;
+import ch.ltouroumov.heig.amt.project1.api.dto.GetUserDTO;
+import ch.ltouroumov.heig.amt.project1.api.dto.PostUserDTO;
 import ch.ltouroumov.heig.amt.project1.user.IUserStore;
 import ch.ltouroumov.heig.amt.project1.user.User;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -17,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Stateless
-@Path("/user")
+@Path("/users")
 public class RegisterRestApi {
 
     @EJB
@@ -28,23 +30,23 @@ public class RegisterRestApi {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<UserDTO> getUsers(@QueryParam(value = "byName") String byName) {
+    public List<GetUserDTO> getUsers(@QueryParam(value = "byName") String byName) {
 
         List<User> users = userStore.getUsers();
         return users.stream().filter(p -> byName == null || p.getLastname().equalsIgnoreCase(byName))
-                .map(p -> toUserDTO(p))
+                .map(p -> toGetUserDTO(p))
                 .collect(Collectors.toList());
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createUser(UserDTO userDTO) {
+    public Response createUser(PostUserDTO postUserDTO) {
 
         String username;
-        User user = fromUserDTO(userDTO);
+        User user = fromPostUserDTO(postUserDTO);
 
         if(userStore.addUser(user)) {
-            username = userDTO.getUsername();
+            username = postUserDTO.getUsername();
 
             URI href = uriInfo
                     .getBaseUriBuilder()
@@ -65,27 +67,27 @@ public class RegisterRestApi {
     @Path("{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public UserDTO getUser(@PathParam(value = "id") String id) {
+    public GetUserDTO getUser(@PathParam(value = "id") String id) {
         User user = userStore.findUser(id);
-        return toUserDTO(user);
+        return toGetUserDTO(user);
     }
 
 
-    public User fromUserDTO(UserDTO userDTO){
-        User user = new User(userDTO.getUsername());
-        user.setFirstname(userDTO.getFirstname());
-        user.setLastname(userDTO.getLastname());
-        user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getUsername() + "_1234");
+    public User fromPostUserDTO(PostUserDTO postUserDTO){
+        User user = new User(postUserDTO.getUsername());
+        user.setFirstname(postUserDTO.getFirstname());
+        user.setLastname(postUserDTO.getLastname());
+        user.setPassword(DigestUtils.sha1Hex(postUserDTO.getPassword()));
+        user.setEmail(postUserDTO.getEmail());
         return user;
     }
 
 
-    public UserDTO toUserDTO(User user) {
-        UserDTO userDTO = new UserDTO(user.getUsername());
-        userDTO.setFirstname(user.getFirstname());
-        userDTO.setLastname(user.getLastname());
-        userDTO.setEmail(user.getEmail());
-        return userDTO;
+    public GetUserDTO toGetUserDTO(User user) {
+        GetUserDTO getUserDTO = new GetUserDTO(user.getUsername());
+        getUserDTO.setFirstname(user.getFirstname());
+        getUserDTO.setLastname(user.getLastname());
+        getUserDTO.setEmail(user.getEmail());
+        return getUserDTO;
     }
 }
