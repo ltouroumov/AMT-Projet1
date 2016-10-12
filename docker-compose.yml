@@ -5,3 +5,27 @@ services:
     ports:
      - "9090:8080"
      - "9990:9990"
+    links:
+      - mysql
+    volumes:
+      - ./wildfly/deploy:/opt/jboss/wildfly/standalone/deployments:Z
+
+  mysql:
+    build: ./mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "9306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+    restart: always
+    links:
+      - mysql
+    ports:
+      - "9091:80"
