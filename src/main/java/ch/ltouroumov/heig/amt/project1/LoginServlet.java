@@ -1,5 +1,6 @@
 package ch.ltouroumov.heig.amt.project1;
 
+import ch.ltouroumov.heig.amt.project1.model.entities.User;
 import ch.ltouroumov.heig.amt.project1.user.*;
 
 import javax.ejb.EJB;

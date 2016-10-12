@@ -1,5 +1,7 @@
 package ch.ltouroumov.heig.amt.project1.user;
 
+import ch.ltouroumov.heig.amt.project1.model.entities.User;
+
 import java.util.List;
 
 /**

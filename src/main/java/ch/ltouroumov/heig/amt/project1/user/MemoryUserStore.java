@@ -1,5 +1,6 @@
 package ch.ltouroumov.heig.amt.project1.user;
 
+import ch.ltouroumov.heig.amt.project1.model.entities.User;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.ejb.Singleton;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by ldavid on 10/3/16.
@@ -40,11 +42,6 @@ public class MemoryUserStore implements IUserStore {
 
     @Override
     public List<User> getUsers() {
-        ArrayList<User> list = new ArrayList<>();
-
-        for (HashMap.Entry<String, User> entry : users.entrySet()) {
-            list.add(entry.getValue());
-        }
-        return list;
+        return users.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toCollection(ArrayList::new));
     }
 }

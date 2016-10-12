@@ -1,7 +1,8 @@
-package ch.ltouroumov.heig.amt.project1.user;
+package ch.ltouroumov.heig.amt.project1.model.entities;
 
 /**
- * Created by ldavid on 10/3/16.
+ * @author ldavid
+ * Created: 10/3/16
  */
 public class User {
 

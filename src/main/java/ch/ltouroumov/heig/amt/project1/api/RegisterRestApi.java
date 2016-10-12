@@ -3,8 +3,8 @@ package ch.ltouroumov.heig.amt.project1.api;
 
 import ch.ltouroumov.heig.amt.project1.api.dto.GetUserDTO;
 import ch.ltouroumov.heig.amt.project1.api.dto.PostUserDTO;
-import ch.ltouroumov.heig.amt.project1.user.IUserStore;
-import ch.ltouroumov.heig.amt.project1.user.User;
+import ch.ltouroumov.heig.amt.project1.model.manager.IUserManager;
+import ch.ltouroumov.heig.amt.project1.model.entities.User;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.ejb.EJB;
@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 @Path("/users")
 public class RegisterRestApi {
 
-    @EJB
-    private IUserStore userStore;
+    @EJB(beanName = "JdbcUserManager")
+    private IUserManager userManager;
 
     @Context
     UriInfo uriInfo;
@@ -32,9 +32,9 @@ public class RegisterRestApi {
     @Produces(MediaType.APPLICATION_JSON)
     public List<GetUserDTO> getUsers(@QueryParam(value = "byName") String byName) {
 
-        List<User> users = userStore.getUsers();
+        List<User> users = userManager.findAll();
         return users.stream().filter(p -> byName == null || p.getLastname().equalsIgnoreCase(byName))
-                .map(p -> toGetUserDTO(p))
+                .map(this::toGetUserDTO)
                 .collect(Collectors.toList());
     }
 
@@ -44,8 +44,8 @@ public class RegisterRestApi {
 
         String username;
         User user = fromPostUserDTO(postUserDTO);
-
-        if(userStore.addUser(user)) {
+        try {
+            userManager.create(user);
             username = postUserDTO.getUsername();
 
             URI href = uriInfo
@@ -58,9 +58,10 @@ public class RegisterRestApi {
                     .created(href)
                     .build();
 
+        } catch (Exception ex) {
+            return Response.notModified("User already exists...")
+                    .build();
         }
-        return Response.notModified("User already exists...")
-                .build();
     }
 
 
@@ -68,7 +69,7 @@ public class RegisterRestApi {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public GetUserDTO getUser(@PathParam(value = "id") String id) {
-        User user = userStore.findUser(id);
+        User user = userManager.findOne(id);
         return toGetUserDTO(user);
     }
 

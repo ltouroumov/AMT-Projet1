@@ -1,5 +1,7 @@
 package ch.ltouroumov.heig.amt.project1;
 
+import ch.ltouroumov.heig.amt.project1.model.entities.User;
+import ch.ltouroumov.heig.amt.project1.model.manager.IUserManager;
 import ch.ltouroumov.heig.amt.project1.user.*;
 
 import javax.ejb.EJB;
@@ -16,8 +18,8 @@ import java.io.IOException;
 @WebServlet(name = "RegisterServlet")
 public class RegisterServlet extends HttpServlet {
 
-    @EJB
-    private IUserStore userStore;
+    @EJB(beanName = "JdbcUserManager")
+    private IUserManager userManager;
 
     @EJB
     private IPasswordEncoder encoder;
@@ -43,10 +45,11 @@ public class RegisterServlet extends HttpServlet {
 
         user.setPassword(encoder.encode(plainPassword));
 
-        if (userStore.addUser(user)) {
+        try {
+            userManager.create(user);
             request.getSession().setAttribute("user", user);
             response.sendRedirect(request.getServletContext().getContextPath() + "/profile");
-        } else {
+        } catch(Exception ex) {
             request.setAttribute("error", "Username not available");
             request.getRequestDispatcher("/WEB-INF/pages/register.jsp").forward(request, response);
         }

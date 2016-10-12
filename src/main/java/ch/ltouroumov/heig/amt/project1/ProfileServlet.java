@@ -1,6 +1,6 @@
 package ch.ltouroumov.heig.amt.project1;
 
-import ch.ltouroumov.heig.amt.project1.user.User;
+import ch.ltouroumov.heig.amt.project1.model.entities.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
