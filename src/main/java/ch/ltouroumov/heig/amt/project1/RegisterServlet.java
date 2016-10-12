@@ -2,7 +2,7 @@ package ch.ltouroumov.heig.amt.project1;
 
 import ch.ltouroumov.heig.amt.project1.model.entities.User;
 import ch.ltouroumov.heig.amt.project1.model.manager.IUserManager;
-import ch.ltouroumov.heig.amt.project1.user.*;
+import ch.ltouroumov.heig.amt.project1.security.*;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;

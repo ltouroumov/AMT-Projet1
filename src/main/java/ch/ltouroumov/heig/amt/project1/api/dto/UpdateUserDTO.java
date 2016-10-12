@@ -3,13 +3,13 @@ package ch.ltouroumov.heig.amt.project1.api.dto;
 /**
  * Created by Frederic on 12.10.16.
  */
-public class PostUpdateUserDTO {
+public class UpdateUserDTO {
 
     private String firstname;
     private String lastname;
     private String email;
 
-    public PostUpdateUserDTO(){
+    public UpdateUserDTO(){
 
     }
 

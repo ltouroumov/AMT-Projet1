@@ -1,13 +1,13 @@
 package ch.ltouroumov.heig.amt.project1.api;
 
 
-import ch.ltouroumov.heig.amt.project1.api.dto.GetUserDTO;
-import ch.ltouroumov.heig.amt.project1.api.dto.PostUpdatePasswordDTO;
-import ch.ltouroumov.heig.amt.project1.api.dto.PostUpdateUserDTO;
-import ch.ltouroumov.heig.amt.project1.api.dto.PostUserDTO;
+import ch.ltouroumov.heig.amt.project1.api.dto.UserDTO;
+import ch.ltouroumov.heig.amt.project1.api.dto.UpdateUserPasswordDTO;
+import ch.ltouroumov.heig.amt.project1.api.dto.UpdateUserDTO;
+import ch.ltouroumov.heig.amt.project1.api.dto.CreateUserDTO;
 import ch.ltouroumov.heig.amt.project1.model.manager.IUserManager;
 import ch.ltouroumov.heig.amt.project1.model.entities.User;
-import org.apache.commons.codec.digest.DigestUtils;
+import ch.ltouroumov.heig.amt.project1.security.IPasswordEncoder;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -30,9 +30,12 @@ public class RegisterRestApi {
     @Context
     UriInfo uriInfo;
 
+    @EJB
+    private IPasswordEncoder encoder;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<GetUserDTO> getUsers(@QueryParam(value = "byName") String byName) {
+    public List<UserDTO> getUsers(@QueryParam(value = "byName") String byName) {
 
         List<User> users = userManager.findAll();
         return users.stream().filter(p -> byName == null || p.getLastname().equalsIgnoreCase(byName))
@@ -42,13 +45,13 @@ public class RegisterRestApi {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createUser(PostUserDTO postUserDTO) {
+    public Response createUser(CreateUserDTO createUserDTO) {
 
         String username;
-        User user = fromPostUserDTO(postUserDTO);
+        User user = fromPostUserDTO(createUserDTO);
         try {
             userManager.create(user);
-            username = postUserDTO.getUsername();
+            username = createUserDTO.getUsername();
 
             URI href = uriInfo
                     .getBaseUriBuilder()
@@ -67,51 +70,52 @@ public class RegisterRestApi {
     }
 
 
-    @Path("/update/password/{id}")
-    @POST
+    @Path("/{id}/password")
+    @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updatePassword(@PathParam(value = "id") String id, PostUpdatePasswordDTO dto){
-        User user = userStore.findUser(id);
-        user.setPassword(DigestUtils.sha1Hex(dto.getPassword()));
+    public Response updatePassword(@PathParam(value = "id") String id, UpdateUserPasswordDTO dto){
+        User user = userManager.findOne(id);
+        user.setPassword(encoder.encode(dto.getPassword()));
         return Response.accepted("User password updated successfully!").build();
     }
 
-    @Path("/update/user/{id}")
-    @POST
+    @Path("/{id}")
+    @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateInfoUser(@PathParam(value = "id") String id, PostUpdateUserDTO dto){
-        User user = userStore.findUser(id);
+    public Response updateInfoUser(@PathParam(value = "id") String id, UpdateUserDTO dto){
+        User user = userManager.findOne(id);
         user.setFirstname(dto.getFirstname());
         user.setLastname(dto.getLastname());
         user.setEmail(dto.getEmail());
+        userManager.update(user);
         return Response.accepted("User info updated successfully!").build();
     }
 
 
-    @Path("{id}")
+    @Path("/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public GetUserDTO getUser(@PathParam(value = "id") String id) {
+    public UserDTO getUser(@PathParam(value = "id") String id) {
         User user = userManager.findOne(id);
         return toGetUserDTO(user);
     }
 
 
-    public User fromPostUserDTO(PostUserDTO postUserDTO){
-        User user = new User(postUserDTO.getUsername());
-        user.setFirstname(postUserDTO.getFirstname());
-        user.setLastname(postUserDTO.getLastname());
-        user.setPassword(DigestUtils.sha1Hex(postUserDTO.getPassword()));
-        user.setEmail(postUserDTO.getEmail());
+    public User fromPostUserDTO(CreateUserDTO createUserDTO){
+        User user = new User(createUserDTO.getUsername());
+        user.setFirstname(createUserDTO.getFirstname());
+        user.setLastname(createUserDTO.getLastname());
+        user.setPassword(encoder.encode(createUserDTO.getPassword()));
+        user.setEmail(createUserDTO.getEmail());
         return user;
     }
 
 
-    public GetUserDTO toGetUserDTO(User user) {
-        GetUserDTO getUserDTO = new GetUserDTO(user.getUsername());
-        getUserDTO.setFirstname(user.getFirstname());
-        getUserDTO.setLastname(user.getLastname());
-        getUserDTO.setEmail(user.getEmail());
-        return getUserDTO;
+    public UserDTO toGetUserDTO(User user) {
+        UserDTO userDTO = new UserDTO(user.getUsername());
+        userDTO.setFirstname(user.getFirstname());
+        userDTO.setLastname(user.getLastname());
+        userDTO.setEmail(user.getEmail());
+        return userDTO;
     }
 }

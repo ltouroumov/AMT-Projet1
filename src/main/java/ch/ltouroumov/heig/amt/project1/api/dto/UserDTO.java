@@ -3,16 +3,16 @@ package ch.ltouroumov.heig.amt.project1.api.dto;
 /**
  * Created by Frederic on 05.10.16.
  */
-public class GetUserDTO {
+public class UserDTO {
 
     private String username;
     private String firstname;
     private String lastname;
     private String email;
 
-    public GetUserDTO() {}
+    public UserDTO() {}
 
-    public GetUserDTO(String username) {
+    public UserDTO(String username) {
         this.username = username;
     }
 

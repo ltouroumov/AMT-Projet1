@@ -1,4 +1,4 @@
-package ch.ltouroumov.heig.amt.project1.user;
+package ch.ltouroumov.heig.amt.project1.security;
 
 import org.apache.commons.codec.digest.DigestUtils;
 

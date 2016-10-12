@@ -1,7 +1,8 @@
 package ch.ltouroumov.heig.amt.project1;
 
 import ch.ltouroumov.heig.amt.project1.model.entities.User;
-import ch.ltouroumov.heig.amt.project1.user.*;
+import ch.ltouroumov.heig.amt.project1.model.manager.IUserManager;
+import ch.ltouroumov.heig.amt.project1.security.*;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -17,8 +18,8 @@ import java.io.IOException;
 @WebServlet(name = "LoginServlet")
 public class LoginServlet extends HttpServlet {
 
-    @EJB
-    private IUserStore userStore;
+    @EJB(beanName = "JdbcUserManager")
+    private IUserManager userStore;
 
     @EJB
     private IPasswordEncoder encoder;
@@ -27,7 +28,7 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String plainPassword = request.getParameter("password");
 
-        User user = userStore.findUser(username);
+        User user = userStore.findOne(username);
         if (user != null && encoder.check(user.getPassword(), plainPassword)) {
             request.getSession().setAttribute("user", user);
             response.sendRedirect(request.getServletContext().getContextPath() + "/");

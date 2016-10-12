@@ -3,11 +3,11 @@ package ch.ltouroumov.heig.amt.project1.api.dto;
 /**
  * Created by Frederic on 12.10.16.
  */
-public class PostUpdatePasswordDTO {
+public class UpdateUserPasswordDTO {
 
     private String password;
 
-    public PostUpdatePasswordDTO() {
+    public UpdateUserPasswordDTO() {
 
     }
 

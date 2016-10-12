@@ -1,15 +1,15 @@
 package ch.ltouroumov.heig.amt.project1.api.dto;
 
 
-public class PostUserDTO extends GetUserDTO {
+public class CreateUserDTO extends UserDTO {
 
     private String password;
 
-    public PostUserDTO(){
+    public CreateUserDTO(){
         super();
     }
 
-    public PostUserDTO(String username){
+    public CreateUserDTO(String username){
         super(username);
     }
 

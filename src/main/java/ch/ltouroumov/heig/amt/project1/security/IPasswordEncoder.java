@@ -1,4 +1,4 @@
-package ch.ltouroumov.heig.amt.project1.user;
+package ch.ltouroumov.heig.amt.project1.security;
 
 /**
  * Created by ldavid on 10/3/16.
