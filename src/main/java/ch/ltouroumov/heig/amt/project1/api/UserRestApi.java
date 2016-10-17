@@ -35,12 +35,32 @@ public class UserRestApi {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<UserDTO> getUsers(@QueryParam(value = "byName") String byName) {
+    public Response getUsers(@QueryParam(value = "byName") String byName) {
+        try {
+            List<User> users = userManager.findAll();
+            return Response.ok(users.stream().filter(p -> byName == null || p.getLastname().equalsIgnoreCase(byName))
+                    .map(this::toGetUserDTO)
+                    .collect(Collectors.toList())).build();
+        } catch (Exception e) {
+            return Response.serverError().build();
+        }
+    }
 
-        List<User> users = userManager.findAll();
-        return users.stream().filter(p -> byName == null || p.getLastname().equalsIgnoreCase(byName))
-                .map(this::toGetUserDTO)
-                .collect(Collectors.toList());
+    @Path("/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getUser(@PathParam(value = "id") String id) {
+        try {
+            User user = userManager.findOne(id);
+            if(user == null){
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+            else{
+                return Response.ok(toGetUserDTO(user)).build();
+            }
+        } catch (Exception e) {
+            return Response.serverError().build();
+        }
     }
 
     @POST
@@ -64,42 +84,40 @@ public class UserRestApi {
                     .build();
 
         } catch (Exception ex) {
-            return Response.notModified("User already exists...")
+            return Response.notModified()
                     .build();
         }
-    }
-
-
-    @Path("/{id}/password")
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response updatePassword(@PathParam(value = "id") String id, UpdateUserPasswordDTO dto){
-        User user = userManager.findOne(id);
-        user.setPassword(encoder.encode(dto.getPassword()));
-        return Response.accepted("User password updated successfully!").build();
     }
 
     @Path("/{id}")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateInfoUser(@PathParam(value = "id") String id, UpdateUserDTO dto){
-        User user = userManager.findOne(id);
-        user.setFirstname(dto.getFirstname());
-        user.setLastname(dto.getLastname());
-        user.setEmail(dto.getEmail());
-        userManager.update(user);
-        return Response.accepted("User info updated successfully!").build();
+        try {
+            User user = userManager.findOne(id);
+            user.setFirstname(dto.getFirstname());
+            user.setLastname(dto.getLastname());
+            user.setEmail(dto.getEmail());
+            userManager.update(user);
+            return Response.accepted().build();
+        } catch (Exception e) {
+            return Response.serverError().build();
+        }
     }
 
-
-    @Path("/{id}")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public UserDTO getUser(@PathParam(value = "id") String id) {
-        User user = userManager.findOne(id);
-        return toGetUserDTO(user);
+    @Path("/{id}/password")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updatePassword(@PathParam(value = "id") String id, UpdateUserPasswordDTO dto){
+        try {
+            User user = userManager.findOne(id);
+            user.setPassword(encoder.encode(dto.getPassword()));
+            userManager.update(user);
+            return Response.accepted().build();
+        } catch (Exception e) {
+            return Response.serverError().build();
+        }
     }
-
 
     public User fromPostUserDTO(CreateUserDTO createUserDTO){
         User user = new User(createUserDTO.getUsername());
