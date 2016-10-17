@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Stateless
 @Path("/users")
-public class RegisterRestApi {
+public class UserRestApi {
 
     @EJB(beanName = "JdbcUserManager")
     private IUserManager userManager;
@@ -55,8 +55,8 @@ public class RegisterRestApi {
 
             URI href = uriInfo
                     .getBaseUriBuilder()
-                    .path(RegisterRestApi.class)
-                    .path(RegisterRestApi.class, "getUser")
+                    .path(UserRestApi.class)
+                    .path(UserRestApi.class, "getUser")
                     .build(username);
 
             return Response
