@@ -1,5 +1,9 @@
 # AMT-Projet1
 
+## Docs
+
+* [REST API Docs](https://github.com/ltouroumov/AMT-Projet1/wiki/Rest-Api-Doc)
+
 ## Building
 
 The project uses gradle as a build system (which has the advantage of having readable configuration files)
