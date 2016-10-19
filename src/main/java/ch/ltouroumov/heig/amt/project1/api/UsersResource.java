@@ -17,9 +17,12 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * REST endpoint for managing users
+ */
 @Stateless
 @Path("/users")
-public class UserRestApi {
+public class UsersResource {
 
     @EJB(beanName = "JdbcUserManager")
     private IUserManager userManager;
@@ -30,13 +33,19 @@ public class UserRestApi {
     @EJB
     private IPasswordEncoder encoder;
 
+    /**
+     * Lists all users
+     *
+     * @param byName name contains
+     * @return Response
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUsers(@QueryParam(value = "byName") String byName) {
         try {
             List<User> users = userManager.findAll();
             return Response.ok(
-                    users.stream().filter(p -> byName == null || p.getLastname().equalsIgnoreCase(byName))
+                    users.stream().filter(p -> byName == null || p.getUsername().contains(byName))
                     .map(this::toGetUserDTO)
                     .collect(Collectors.toList())
             ).build();
@@ -48,6 +57,11 @@ public class UserRestApi {
         }
     }
 
+    /**
+     * Creates a user
+     * @param createUserDTO User DTO
+     * @return Respone
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createUser(CreateUserDTO createUserDTO) {
@@ -60,8 +74,8 @@ public class UserRestApi {
 
             URI href = uriInfo
                     .getBaseUriBuilder()
-                    .path(UserRestApi.class)
-                    .path(UserRestApi.class, "getUser")
+                    .path(UsersResource.class)
+                    .path(UsersResource.class, "getUser")
                     .build(username);
 
             return Response
@@ -76,14 +90,18 @@ public class UserRestApi {
         }
     }
 
-    @Path("/{id}/password")
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response updatePassword(@PathParam(value = "id") String id, UpdateUserPasswordDTO dto){
+    /**
+     * User information
+     * @param id User id
+     * @return Response
+     */
+    @Path("/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getUser(@PathParam(value = "id") String id) {
         try {
             User user = userManager.findOne(id);
-            user.setPassword(encoder.encode(dto.getPassword()));
-            return Response.accepted("User password updated successfully!").build();
+            return Response.ok(toGetUserDTO(user)).build();
         } catch (Exception ex) {
             return Response.serverError()
                     .entity(new ExceptionDTO(ex))
@@ -92,6 +110,12 @@ public class UserRestApi {
         }
     }
 
+    /**
+     * Update a user
+     * @param id User id
+     * @param dto User infos (except password)
+     * @return Response
+     */
     @Path("/{id}")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
@@ -111,14 +135,20 @@ public class UserRestApi {
         }
     }
 
-
-    @Path("/{id}")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser(@PathParam(value = "id") String id) {
+    /**
+     * Updates a user's password
+     * @param id User id
+     * @param dto User's password
+     * @return Response
+     */
+    @Path("/{id}/password")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updatePassword(@PathParam(value = "id") String id, UpdateUserPasswordDTO dto){
         try {
             User user = userManager.findOne(id);
-            return Response.ok(toGetUserDTO(user)).build();
+            user.setPassword(encoder.encode(dto.getPassword()));
+            return Response.accepted("User password updated successfully!").build();
         } catch (Exception ex) {
             return Response.serverError()
                     .entity(new ExceptionDTO(ex))
@@ -127,6 +157,11 @@ public class UserRestApi {
         }
     }
 
+    /**
+     * Convert a DTO to a user
+     * @param createUserDTO User DTO
+     * @return User object
+     */
     public User fromPostUserDTO(CreateUserDTO createUserDTO){
         User user = new User(createUserDTO.getUsername());
         user.setFirstname(createUserDTO.getFirstname());
@@ -136,7 +171,11 @@ public class UserRestApi {
         return user;
     }
 
-
+    /**
+     * Convert a user to a DTO
+     * @param user User object
+     * @return User DTO
+     */
     public UserDTO toGetUserDTO(User user) {
         UserDTO userDTO = new UserDTO(user.getUsername());
         userDTO.setFirstname(user.getFirstname());

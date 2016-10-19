@@ -1,6 +1,8 @@
 package ch.ltouroumov.heig.amt.project1.model.entities;
 
 /**
+ * Represents a user
+ *
  * @author ldavid
  * Created: 10/3/16
  */

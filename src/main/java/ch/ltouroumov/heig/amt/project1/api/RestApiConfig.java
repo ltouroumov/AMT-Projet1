@@ -5,8 +5,10 @@ import javax.ws.rs.core.Application;
 import java.util.HashMap;
 import java.util.Map;
 
-
-
+/**
+ * Configures the REST API.
+ * Prefixes it under '/api'
+ */
 @ApplicationPath("/api")
 public class RestApiConfig extends Application {
 

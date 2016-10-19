@@ -12,8 +12,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
+ * Manages users in memory
  * @author ldavid
- *         Created: 10/12/16
+ * Created: 10/12/16
  */
 @Singleton
 public class MemoryUserManager implements IUserManager {

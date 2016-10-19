@@ -8,7 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by ldavid on 10/3/16.
+ * Disconnects the user by clearing the session
+ *
+ * @author ldavid
+ * Created: 10/3/16
  */
 @WebServlet(name = "LogoutServlet")
 public class LogoutServlet extends HttpServlet {

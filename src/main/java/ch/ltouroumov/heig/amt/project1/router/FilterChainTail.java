@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Created by ldavid on 10/3/16.
+ * End of a filter chain
+ *
+ * @author ldavid
+ * Created: 10/3/16
  */
 public class FilterChainTail implements FilterChain {
 

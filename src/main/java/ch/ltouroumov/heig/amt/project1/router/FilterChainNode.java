@@ -4,7 +4,10 @@ import javax.servlet.*;
 import java.io.IOException;
 
 /**
- * Created by ldavid on 10/3/16.
+ * Element of a filter chain
+ *
+ * @author ldavid
+ * Created: 10/3/16
  */
 public class FilterChainNode implements FilterChain {
 

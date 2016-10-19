@@ -1,20 +1,25 @@
 package ch.ltouroumov.heig.amt.project1;
 
-import ch.ltouroumov.heig.amt.project1.router.IRouterConfig;
-import ch.ltouroumov.heig.amt.project1.router.Router;
+import ch.ltouroumov.heig.amt.project1.router.*;
 
 /**
- * Created by ldavid on 9/28/16.
+ * Route handlers for servlets
+ *
+ * @author ldavid
+ * Created: 9/28/16
  */
 public class Routes implements IRouterConfig {
     @Override
-    public void configure(Router router) {
-        router.map("/assets").prefix().to("default");
+    public void configure(RouteCollection router) {
+        router.map("/assets").prefix().to(Route.DEFAULT_HANDLER);
 
-        router.map("/").to("HomeServlet");
-        router.map("/register").to("RegisterServlet");
-        router.map("/login").to("LoginServlet");
-        router.map("/logout").to("LogoutServlet");
-        router.map("/profile").to("ProfileServlet").filter(AuthenticatedFilter.class);
+        router.map("/").to(new ForwardHandler("/WEB-INF/pages/index.jsp"));
+        router.map("/pokemons").to(new ServletHandler("/WEB-INF/pages/pokemons.jsp"));
+        router.map("/users").to(new ForwardHandler("/WEB-INF/pages/users.jsp"));
+
+        router.map("/register").to(new ServletHandler("RegisterServlet"));
+        router.map("/login").to(new ServletHandler("LoginServlet"));
+        router.map("/logout").to(new ServletHandler("LogoutServlet"));
+        router.map("/profile").to(new ServletHandler("ProfileServlet")).filter(AuthenticatedFilter.class);
     }
 }

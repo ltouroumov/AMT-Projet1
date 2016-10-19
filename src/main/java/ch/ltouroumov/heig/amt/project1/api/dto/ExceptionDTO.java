@@ -1,6 +1,8 @@
 package ch.ltouroumov.heig.amt.project1.api.dto;
 
 /**
+ * Wraps an exception to allow an API endpoint to return a clean version of it.
+ *
  * @author ldavid
  * Created: 10/17/16
  */

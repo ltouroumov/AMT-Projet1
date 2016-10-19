@@ -1,7 +1,10 @@
 package ch.ltouroumov.heig.amt.project1.model.entities;
 
 /**
- * Created by Frederic on 17.10.16.
+ * Represents a pokemon
+ *
+ * @author Frederic
+ * Created: 17.10.16
  */
 public class Pokemon {
 

@@ -13,46 +13,50 @@
     <div class="col-xs-12">
         <h1>Register</h1>
 
+        <c:if test="${error != null}">
+            <div class="alert alert-danger">${error}</div>
+        </c:if>
+
         <form class="form-horizontal" method="post">
             <div class="form-group">
                 <label for="username" class="col-sm-2 control-label">Username</label>
                 <div class="col-sm-10">
-                    <input type="text" name="username" id="username" class="form-control" />
+                    <input type="text" name="username" id="username" value="${user.getUsername()}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="firstname" class="col-sm-2 control-label">Firstname</label>
                 <div class="col-sm-10">
-                    <input type="text" name="firstname" id="firstname" class="form-control" />
+                    <input type="text" name="firstname" id="firstname" value="${user.getFirstname()}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="lastname" class="col-sm-2 control-label">Lastname</label>
                 <div class="col-sm-10">
-                    <input type="text" name="lastname" id="lastname" class="form-control" />
+                    <input type="text" name="lastname" id="lastname" value="${user.getLastname()}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="email" class="col-sm-2 control-label">E-Mail</label>
                 <div class="col-sm-10">
-                    <input type="text" name="email" id="email" class="form-control" />
+                    <input type="text" name="email" id="email" value="${user.getEmail()}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="password" class="col-sm-2 control-label">Password</label>
                 <div class="col-sm-10">
-                    <input type="password" name="password" id="password" class="form-control" />
+                    <input type="password" name="password" id="password" value="${requestScope.get("password")}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="password-confirm" class="col-sm-2 control-label">Confirm</label>
                 <div class="col-sm-10">
-                    <input type="password" name="password-confirm" id="password-confirm" class="form-control" />
+                    <input type="password" name="password-confirm" id="password-confirm" value="${requestScope.get("password-confirm")}" class="form-control" />
                 </div>
             </div>
 

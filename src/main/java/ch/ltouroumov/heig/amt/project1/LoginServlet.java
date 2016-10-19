@@ -13,7 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by ldavid on 10/3/16.
+ * Display login form and authenticate user by establishing session
+ *
+ * @author ldavid
+ * Created: 10/3/16
  */
 @WebServlet(name = "LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -24,6 +27,11 @@ public class LoginServlet extends HttpServlet {
     @EJB
     private IPasswordEncoder encoder;
 
+    /**
+     * Authenticates the user and establishes the session
+     *
+     * {@inheritDoc}
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String plainPassword = request.getParameter("password");
@@ -39,6 +47,11 @@ public class LoginServlet extends HttpServlet {
 
     }
 
+    /**
+     * Display login form
+     *
+     * {@inheritDoc}
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("error", null);
         request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);

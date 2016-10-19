@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Manages pokemons in memory
+ *
+ * @author ldavid
+ */
 @Singleton
 public class MemoryPokemonManager implements IPokemonManager {
 

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Manages pokemons with JDBC connection
  * @author Frederic
  * Created: 17.10.16
  */

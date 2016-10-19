@@ -8,7 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by ldavid on 10/3/16.
+ * Checks if the user is authenticated by checking for the presence of the 'user' session variable.
+ *
+ * @author ldavid
+ * Created: 10/3/16
  */
 public class AuthenticatedFilter implements Filter {
 

@@ -6,18 +6,26 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
- * Created by ldavid on 9/28/16.
+ * Handles routing for the frontend of the application
+ *
+ * @author ldavid
+ * Created: 9/28/16
  */
 public class RouterFilter implements Filter {
 
-    private Router router;
+    private RouteCollection router;
     private final static Logger LOG = Logger.getLogger("RouterFilter");
 
+    /**
+     * Loads routes from the configuration class specified in web.xml
+     *
+     * {@inheritDoc}
+     */
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         String configName = filterConfig.getInitParameter("configurator");
 
-        router = new Router();
+        router = new RouteCollection();
 
         try {
             IRouterConfig config = (IRouterConfig)getClass()
@@ -32,6 +40,12 @@ public class RouterFilter implements Filter {
 
     }
 
+    /**
+     * Tries to find the route for the frontend from the route collection created by the configurator.
+     * If no route is found, the request is forwarded down the chain.
+     *
+     * {@inheritDoc}
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
@@ -41,7 +55,7 @@ public class RouterFilter implements Filter {
         Route route = router.match(path);
         LOG.info("Matched to " + route);
         if (route != null) {
-            RequestDispatcher dispatcher = request.getServletContext().getNamedDispatcher(route.handler);
+            RequestDispatcher dispatcher = route.handler.setup(request);
             if (dispatcher != null) {
                 FilterChain head = new FilterChainTail(dispatcher);
                 for (Class<?> filterClass : route.filters) {

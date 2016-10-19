@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Manages users with a JDBC connection
+ *
  * @author ldavid
  * Created: 10/12/16
  */

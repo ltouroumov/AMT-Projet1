@@ -14,10 +14,25 @@
         <h1>Hello ${user.getUsername()}</h1>
 
         <form class="form-horizontal" method="post">
+
+            <div class="form-group">
+                <label for="firstname" class="col-sm-2 control-label">Firstname</label>
+                <div class="col-sm-10">
+                    <input type="text" name="firstname" id="firstname" value="${user.getFirstname()}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="lastname" class="col-sm-2 control-label">Lastname</label>
+                <div class="col-sm-10">
+                    <input type="text" name="lastname" id="lastname" value="${user.getLastname()}" class="form-control" />
+                </div>
+            </div>
+
             <div class="form-group">
                 <label for="email" class="col-sm-2 control-label">E-Mail</label>
                 <div class="col-sm-10">
-                    <input type="text" name="email" id="email" class="form-control" value="${user.getEmail()}" />
+                    <input type="text" name="email" id="email" value="${user.getEmail()}" class="form-control" />
                 </div>
             </div>
 
