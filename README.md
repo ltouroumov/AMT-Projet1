@@ -19,4 +19,7 @@ will automatically deploy on the application server.
 
 ## Deploying
 
+    # build the project
+    ./gradlew war
+    # Start the Docker setup
     docker-compose up --build
