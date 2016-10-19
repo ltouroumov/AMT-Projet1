@@ -12,8 +12,6 @@ public interface IUserManager {
 
     List<User> findAll();
 
-    User findOne();
-
     User findOne(String username);
 
     void create(User user);

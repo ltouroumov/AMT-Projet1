@@ -1,10 +1,7 @@
 package ch.ltouroumov.heig.amt.project1.api;
 
 
-import ch.ltouroumov.heig.amt.project1.api.dto.UserDTO;
-import ch.ltouroumov.heig.amt.project1.api.dto.UpdateUserPasswordDTO;
-import ch.ltouroumov.heig.amt.project1.api.dto.UpdateUserDTO;
-import ch.ltouroumov.heig.amt.project1.api.dto.CreateUserDTO;
+import ch.ltouroumov.heig.amt.project1.api.dto.*;
 import ch.ltouroumov.heig.amt.project1.model.manager.IUserManager;
 import ch.ltouroumov.heig.amt.project1.model.entities.User;
 import ch.ltouroumov.heig.amt.project1.security.IPasswordEncoder;
@@ -35,12 +32,20 @@ public class UserRestApi {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<UserDTO> getUsers(@QueryParam(value = "byName") String byName) {
-
-        List<User> users = userManager.findAll();
-        return users.stream().filter(p -> byName == null || p.getLastname().equalsIgnoreCase(byName))
-                .map(this::toGetUserDTO)
-                .collect(Collectors.toList());
+    public Response getUsers(@QueryParam(value = "byName") String byName) {
+        try {
+            List<User> users = userManager.findAll();
+            return Response.ok(
+                    users.stream().filter(p -> byName == null || p.getLastname().equalsIgnoreCase(byName))
+                    .map(this::toGetUserDTO)
+                    .collect(Collectors.toList())
+            ).build();
+        } catch (Exception ex) {
+            return Response.serverError()
+                    .entity(new ExceptionDTO(ex))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }
     }
 
     @POST
@@ -64,7 +69,9 @@ public class UserRestApi {
                     .build();
 
         } catch (Exception ex) {
-            return Response.notModified("User already exists...")
+            return Response.serverError()
+                    .entity(new ExceptionDTO(ex))
+                    .type(MediaType.APPLICATION_JSON)
                     .build();
         }
     }
@@ -74,30 +81,51 @@ public class UserRestApi {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updatePassword(@PathParam(value = "id") String id, UpdateUserPasswordDTO dto){
-        User user = userManager.findOne(id);
-        user.setPassword(encoder.encode(dto.getPassword()));
-        return Response.accepted("User password updated successfully!").build();
+        try {
+            User user = userManager.findOne(id);
+            user.setPassword(encoder.encode(dto.getPassword()));
+            return Response.accepted("User password updated successfully!").build();
+        } catch (Exception ex) {
+            return Response.serverError()
+                    .entity(new ExceptionDTO(ex))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }
     }
 
     @Path("/{id}")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateInfoUser(@PathParam(value = "id") String id, UpdateUserDTO dto){
-        User user = userManager.findOne(id);
-        user.setFirstname(dto.getFirstname());
-        user.setLastname(dto.getLastname());
-        user.setEmail(dto.getEmail());
-        userManager.update(user);
-        return Response.accepted("User info updated successfully!").build();
+        try {
+            User user = userManager.findOne(id);
+            user.setFirstname(dto.getFirstname());
+            user.setLastname(dto.getLastname());
+            user.setEmail(dto.getEmail());
+            userManager.update(user);
+            return Response.accepted("User info updated successfully!").build();
+        } catch (Exception ex) {
+            return Response.serverError()
+                    .entity(new ExceptionDTO(ex))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }
     }
 
 
     @Path("/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public UserDTO getUser(@PathParam(value = "id") String id) {
-        User user = userManager.findOne(id);
-        return toGetUserDTO(user);
+    public Response getUser(@PathParam(value = "id") String id) {
+        try {
+            User user = userManager.findOne(id);
+            return Response.ok(toGetUserDTO(user)).build();
+        } catch (Exception ex) {
+            return Response.serverError()
+                    .entity(new ExceptionDTO(ex))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }
     }
 
 
