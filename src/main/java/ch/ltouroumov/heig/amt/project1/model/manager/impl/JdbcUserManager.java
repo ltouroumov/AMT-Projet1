@@ -50,11 +50,6 @@ public class JdbcUserManager implements IUserManager {
     }
 
     @Override
-    public User findOne() {
-        throw new ManagerException("Not Implemented");
-    }
-
-    @Override
     public User findOne(String username) {
         try {
             Connection conn = dataSource.getConnection();

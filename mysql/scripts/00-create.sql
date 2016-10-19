@@ -11,3 +11,9 @@ CREATE TABLE users (
   first_name VARCHAR(1014),
   last_name VARCHAR(1024)
 );
+
+CREATE TABLE pokemons (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(1024) UNIQUE,
+  type VARCHAR(512)
+);

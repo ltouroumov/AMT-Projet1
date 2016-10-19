@@ -2,7 +2,6 @@ package ch.ltouroumov.heig.amt.project1.api;
 
 import ch.ltouroumov.heig.amt.project1.api.dto.*;
 import ch.ltouroumov.heig.amt.project1.model.entities.Pokemon;
-import ch.ltouroumov.heig.amt.project1.model.entities.User;
 import ch.ltouroumov.heig.amt.project1.model.manager.IPokemonManager;
 
 import javax.ejb.EJB;
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
 public class PokemonRestApi {
 
 
-    @EJB(beanName = "MemoryPokemonManager")
+    @EJB(beanName = "JdbcPokemonManager")
     private IPokemonManager pokemonManager;
 
     @Context
@@ -36,8 +35,11 @@ public class PokemonRestApi {
             return Response.ok(users.stream().filter(p -> byName == null || p.getName().equalsIgnoreCase(byName))
                     .map(this::toPokemonDTO)
                     .collect(Collectors.toList())).build();
-        } catch(Exception e) {
-            return Response.serverError().build();
+        } catch(Exception ex) {
+            return Response.serverError()
+                    .entity(new ExceptionDTO(ex))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
         }
     }
 
@@ -52,8 +54,11 @@ public class PokemonRestApi {
             } else {
                 return Response.status(Response.Status.NOT_FOUND).build();
             }
-        } catch (Exception e){
-            return Response.serverError().build();
+        } catch (Exception ex){
+            return Response.serverError()
+                    .entity(new ExceptionDTO(ex))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
         }
     }
 
@@ -74,9 +79,10 @@ public class PokemonRestApi {
             return Response
                     .created(href)
                     .build();
-
         } catch (Exception ex) {
             return Response.serverError()
+                    .entity(new ExceptionDTO(ex))
+                    .type(MediaType.APPLICATION_JSON)
                     .build();
         }
     }
@@ -91,8 +97,11 @@ public class PokemonRestApi {
             pokemon.setType(pokemonDTO.getType());
             pokemonManager.update(pokemon);
             return Response.accepted().build();
-        }catch(Exception e) {
-            return Response.serverError().build();
+        }catch(Exception ex) {
+            return Response.serverError()
+                    .entity(new ExceptionDTO(ex))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
         }
     }
 
@@ -103,8 +112,11 @@ public class PokemonRestApi {
         try {
             pokemonManager.delete(id);
             return Response.accepted().build();
-        } catch(Exception e) {
-            return Response.serverError().build();
+        } catch(Exception ex) {
+            return Response.serverError()
+                    .entity(new ExceptionDTO(ex))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
         }
     }
 

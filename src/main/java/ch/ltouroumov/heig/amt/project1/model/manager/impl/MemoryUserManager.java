@@ -33,11 +33,6 @@ public class MemoryUserManager implements IUserManager {
     }
 
     @Override
-    public User findOne() {
-        return null;
-    }
-
-    @Override
     public User findOne(String username) {
         return users.get(username);
     }

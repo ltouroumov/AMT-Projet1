@@ -29,11 +29,6 @@ public class MemoryPokemonManager implements IPokemonManager {
     }
 
     @Override
-    public Pokemon findOne() {
-        return null;
-    }
-
-    @Override
     public Pokemon findOne(int id) {
         return pokemons.get(id);
     }

@@ -11,8 +11,6 @@ public interface IPokemonManager {
 
     List<Pokemon> findAll();
 
-    Pokemon findOne();
-
     Pokemon findOne(int id);
 
     void create(Pokemon pokemon);
@@ -22,4 +20,5 @@ public interface IPokemonManager {
     void delete(Pokemon pokemon);
 
     void delete(int id);
+
 }
