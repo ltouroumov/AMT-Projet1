@@ -11,15 +11,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="${base}/">Gamify</a>
+            <a class="navbar-brand" href="${base}/">Pokemanager</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="#">Foo</a></li>
-                <li><a href="#">Bar</a></li>
-                <li><a href="#">Baz</a></li>
+                <li><a href="${base}/pokemons">Pokemons</a></li>
+                <li><a href="${base}/users">Users</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <c:if test="${sessionScope.get(\"user\") == null}">

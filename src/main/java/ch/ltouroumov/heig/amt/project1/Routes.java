@@ -14,8 +14,8 @@ public class Routes implements IRouterConfig {
         router.map("/assets").prefix().to(Route.DEFAULT_HANDLER);
 
         router.map("/").to(new ForwardHandler("/WEB-INF/pages/index.jsp"));
-        router.map("/pokemons").to(new ServletHandler("/WEB-INF/pages/pokemons.jsp"));
-        router.map("/users").to(new ForwardHandler("/WEB-INF/pages/users.jsp"));
+        router.map("/pokemons").to(new ForwardHandler("/WEB-INF/pages/pokemons.jsp"));
+        router.map("/users").to(new ForwardHandler("/WEB-INF/pages/users.jsp")).filter(AuthenticatedFilter.class);
 
         router.map("/register").to(new ServletHandler("RegisterServlet"));
         router.map("/login").to(new ServletHandler("LoginServlet"));

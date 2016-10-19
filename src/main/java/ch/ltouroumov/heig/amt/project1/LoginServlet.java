@@ -39,7 +39,12 @@ public class LoginServlet extends HttpServlet {
         User user = userStore.findOne(username);
         if (user != null && encoder.check(user.getPassword(), plainPassword)) {
             request.getSession().setAttribute("user", user);
-            response.sendRedirect(request.getServletContext().getContextPath() + "/");
+            String redirect = request.getParameter("redirect");
+            if (redirect != null) {
+                response.sendRedirect(redirect);
+            } else {
+                response.sendRedirect(request.getServletContext().getContextPath() + "/");
+            }
         } else {
             request.setAttribute("error", "Failed to log in");
             request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
@@ -54,6 +59,7 @@ public class LoginServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("error", null);
+        request.setAttribute("redirect", request.getParameter("redirect"));
         request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
     }
 }

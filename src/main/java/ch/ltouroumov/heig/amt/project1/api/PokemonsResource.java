@@ -65,8 +65,8 @@ public class PokemonsResource {
 
             URI href = uriInfo
                     .getBaseUriBuilder()
-                    .path(UsersResource.class)
-                    .path(UsersResource.class, "getPokemon")
+                    .path(PokemonsResource.class)
+                    .path(PokemonsResource.class, "getPokemon")
                     .build(id);
 
             return Response
@@ -92,7 +92,7 @@ public class PokemonsResource {
         try {
             Pokemon pokemon = pokemonManager.findOne(id);
             if (pokemon != null) {
-                return Response.ok(toPokemonDTO(pokemon)).build();
+                return Response.ok(toPokemonDTO(pokemon), MediaType.APPLICATION_JSON).build();
             } else {
                 return Response.status(Response.Status.NOT_FOUND).build();
             }
@@ -119,7 +119,7 @@ public class PokemonsResource {
             pokemon.setName(pokemonDTO.getName());
             pokemon.setType(pokemonDTO.getType());
             pokemonManager.update(pokemon);
-            return Response.accepted().build();
+            return Response.ok(pokemon, MediaType.APPLICATION_JSON).build();
         }catch(Exception ex) {
             return Response.serverError()
                     .entity(new ExceptionDTO(ex))

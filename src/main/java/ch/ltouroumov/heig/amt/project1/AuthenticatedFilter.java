@@ -27,7 +27,7 @@ public class AuthenticatedFilter implements Filter {
 
         User user = (User)httpRequest.getSession().getAttribute("user");
         if (user == null) {
-            httpResponse.sendRedirect(request.getServletContext().getContextPath() + "/login");
+            httpResponse.sendRedirect(request.getServletContext().getContextPath() + "/login?redirect=" + httpRequest.getRequestURI());
         } else {
             chain.doFilter(request, response);
         }

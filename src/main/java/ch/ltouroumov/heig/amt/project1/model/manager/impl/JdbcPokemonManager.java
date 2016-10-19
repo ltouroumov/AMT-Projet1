@@ -95,6 +95,8 @@ public class JdbcPokemonManager implements IPokemonManager {
             query.setString(1, pokemon.getName());
             query.setString(2, pokemon.getType());
             query.setInt(3, pokemon.getId());
+
+            query.executeUpdate();
         } catch (SQLException ex) {
             throw new ManagerException("Failed to update pokemon", ex);
         }

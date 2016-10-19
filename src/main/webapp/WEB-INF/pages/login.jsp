@@ -13,7 +13,16 @@
     <div class="col-xs-12">
         <h1>Login</h1>
 
+        <c:if test="${error != null}">
+            <div class="alert alert-danger">${error}</div>
+        </c:if>
+
         <form class="form-horizontal" method="post">
+
+            <c:if test="${redirect != null}">
+                <input type="hidden" name="redirect" value="${redirect}" />
+            </c:if>
+
             <div class="form-group">
                 <label for="username" class="col-sm-2 control-label">Username</label>
                 <div class="col-sm-10">
