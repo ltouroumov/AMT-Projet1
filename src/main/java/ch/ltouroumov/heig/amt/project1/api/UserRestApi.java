@@ -76,7 +76,6 @@ public class UserRestApi {
         }
     }
 
-
     @Path("/{id}/password")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
@@ -127,7 +126,6 @@ public class UserRestApi {
                     .build();
         }
     }
-
 
     public User fromPostUserDTO(CreateUserDTO createUserDTO){
         User user = new User(createUserDTO.getUsername());
