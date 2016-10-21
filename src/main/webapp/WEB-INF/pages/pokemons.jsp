@@ -7,9 +7,10 @@
     <%@include file="slices/head.jsp" %>
 </head>
 <body>
-<%@include file="slices/nav.jsp" %>
 
 <div class="container">
+    <%@include file="slices/nav.jsp" %>
+
     <div class="col-xs-12">
         <h1>Pokemons</h1>
     </div>
@@ -97,6 +98,8 @@
 
     function addPokemon(event) {
 
+        event.preventDefault();
+
         var $data = {
             "name": $('#add-pokemon-name').val(),
             "type": $('#add-pokemon-type').val()
@@ -110,8 +113,6 @@
         }).then(function() {
             refreshPokemons();
         });
-
-        event.preventDefault();
     }
 
     function editPokemon(id) {
@@ -158,9 +159,8 @@
     $(function() {
         refreshPokemons();
 
-        $('#pokeform').submit(addPokemon);
+        $('#add-pokeform').submit(addPokemon);
     });
-
 </script>
 <!-- All the scripts Ends-->
 </body>
