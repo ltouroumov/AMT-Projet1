@@ -7,9 +7,11 @@
     <%@include file="slices/head.jsp" %>
 </head>
 <body>
-<%@include file="slices/nav.jsp" %>
 
 <div class="container">
+
+    <%@include file="slices/nav.jsp" %>
+
     <div class="col-xs-12">
         <h1>Login</h1>
 

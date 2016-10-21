@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/css/ionicons.min.css">
 <!-- <link rel="stylesheet" href="css/animate.css"> -->
-<!-- <link rel="stylesheet" href="css/style.css"> -->
+<link rel="stylesheet" href="assets/css/style.css">
 
 <!-- Google Fonts -->
 
