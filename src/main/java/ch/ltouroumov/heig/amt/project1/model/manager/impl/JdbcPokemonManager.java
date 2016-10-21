@@ -79,8 +79,11 @@ public class JdbcPokemonManager implements IPokemonManager {
             PreparedStatement query = conn.prepareStatement("INSERT INTO pokemons(name, type) VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
             query.setString(1, pokemon.getName());
             query.setString(2, pokemon.getType());
-            int id = query.executeUpdate();
-            pokemon.setId(id);
+            query.executeUpdate();
+            ResultSet rs = query.getGeneratedKeys();
+            if (rs.next()) {
+                pokemon.setId(rs.getInt(1));
+            }
         } catch (SQLException ex) {
             throw new ManagerException("Failed to create pokemon", ex);
         }
