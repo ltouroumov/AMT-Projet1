@@ -3,6 +3,7 @@
 ## Docs
 
 * [REST API Docs](https://github.com/ltouroumov/AMT-Projet1/wiki/Rest-Api-Doc)
+* [REST API Demo](https://github.com/ltouroumov/AMT-Projet1/wiki/Rest-Api-Demo)
 
 ## Building
 
